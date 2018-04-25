@@ -9,7 +9,7 @@ export const withMappedNavigationProps = SecondOrderWrapperComponent => WrappedC
         const { screenProps, ...propsExceptScreenProps } = this.props;
     
         if (!SecondOrderWrapperComponent) {
-          return <WrappedComponent {...screenProps} {...propsExceptScreenProps} {...params} />;
+          return <WrappedComponent {...screenProps} {...propsExceptScreenProps} {...params} ref="comp" />;
         } else {
           return (
             <SecondOrderWrapperComponent
@@ -17,10 +17,15 @@ export const withMappedNavigationProps = SecondOrderWrapperComponent => WrappedC
               {...screenProps}
               {...propsExceptScreenProps}
               {...params}
+              ref="comp"
             />
           );
         }
       };
+    }
+
+    getCompositionComponent() {
+      return this.refs["comp"];
     }
   }
 
