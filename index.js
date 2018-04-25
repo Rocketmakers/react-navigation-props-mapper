@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
 export const withMappedNavigationProps = SecondOrderWrapperComponent => WrappedComponent => {
-  const TargetComponent = props => {
-    const { navigation: { state: { params } } } = props;
-    const { screenProps, ...propsExceptScreenProps } = props;
-
-    if (!SecondOrderWrapperComponent) {
-      return <WrappedComponent {...screenProps} {...propsExceptScreenProps} {...params} />;
-    } else {
-      return (
-        <SecondOrderWrapperComponent
-          WrappedComponent={WrappedComponent}
-          {...screenProps}
-          {...propsExceptScreenProps}
-          {...params}
-        />
-      );
+  class TargetComponent extends Component {
+    render() {
+      {
+        const { navigation: { state: { params } } } = this.props;
+        const { screenProps, ...propsExceptScreenProps } = this.props;
+    
+        if (!SecondOrderWrapperComponent) {
+          return <WrappedComponent {...screenProps} {...propsExceptScreenProps} {...params} />;
+        } else {
+          return (
+            <SecondOrderWrapperComponent
+              WrappedComponent={WrappedComponent}
+              {...screenProps}
+              {...propsExceptScreenProps}
+              {...params}
+            />
+          );
+        }
+      };
     }
-  };
+  }
 
   TargetComponent.displayName = `withMappedNavigationProps(${WrappedComponent.displayName ||
     WrappedComponent.name})`;
